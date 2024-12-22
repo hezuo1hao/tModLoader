@@ -145,7 +145,7 @@ namespace ExampleMod.Content.NPCs.TownPets
 		public override string GetChat() {
 			WeightedRandom<string> chat = new();
 
-			chat.Add("*Example Town Pet noises*");
+			chat.Add(Language.GetTextValue("Mods.ExampleMod.Dialogue.ExampleTownPet.StandardDialogue"));
 
 			return chat;
 		}

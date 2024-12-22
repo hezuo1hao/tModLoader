@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent.Bestiary;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
 
@@ -19,6 +20,8 @@ namespace ExampleMod.Content.NPCs
 	public class ExampleCritterNPC : ModNPC
 	{
 		private const int ClonedNPCID = NPCID.Frog; // Easy to change type for your modder convenience
+
+		public static LocalizedText ErrorText { get; private set; }
 
 		public override void Load() {
 			IL_Wiring.HitWireSingle += HookFrogStatue;
@@ -84,7 +87,7 @@ namespace ExampleMod.Content.NPCs
 				}
 
 				// Couldn't find the right place to insert.
-				throw new Exception("Hook location not found, switch(*) { case 61: ...");
+				throw new Exception(ErrorText.Value);
 			}
 			catch {
 				// If there are any failures with the IL editing, this method will dump the IL to Logs/ILDumps/{Mod Name}/{Method Name}.txt
@@ -106,6 +109,8 @@ namespace ExampleMod.Content.NPCs
 
 			// This is so it appears between the frog and the gold frog
 			NPCID.Sets.NormalGoldCritterBestiaryPriority.Insert(NPCID.Sets.NormalGoldCritterBestiaryPriority.IndexOf(ClonedNPCID) + 1, Type);
+
+			ErrorText = this.GetLocalization("Error");
 		}
 
 		public override void SetDefaults() {
@@ -129,7 +134,7 @@ namespace ExampleMod.Content.NPCs
 
 		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry) {
 			bestiaryEntry.AddTags(BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
-				new FlavorTextBestiaryInfoElement("The most adorable goodest spicy child. Do not dare be mean to him!"));
+				new FlavorTextBestiaryInfoElement("Mods.ExampleMod.Bestiary.ExampleCritterNPC"));
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo) {

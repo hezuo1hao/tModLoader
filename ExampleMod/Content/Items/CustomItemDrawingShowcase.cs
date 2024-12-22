@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.UI;
 
@@ -36,9 +37,24 @@ namespace ExampleMod.Content.Items
 		private const int DrawModeRockingRotation = 4;
 		private const int Count = 5;
 
+		public static LocalizedText RightClickText { get; private set; }
+
+		public static LocalizedText DrawModeDetailsText { get; private set; }
+
+		public static LocalizedText[] DrawModeText { get; private set; }
+
+		public static LocalizedText DrawMode_UnknownText { get; private set; }
+
 		public override void Load() {
 			backTexture = ModContent.Request<Texture2D>(Texture + "_Back");
 			frontTexture = ModContent.Request<Texture2D>(Texture + "_Front");
+		}
+
+		public override void SetStaticDefaults() {
+			RightClickText = this.GetLocalization("RightClick");
+			DrawModeDetailsText = this.GetLocalization("DrawModeDetails");
+			DrawModeText = [this.GetLocalization("DrawMode_0"), this.GetLocalization("DrawMode_1"), this.GetLocalization("DrawMode_2"), this.GetLocalization("DrawMode_3"), this.GetLocalization("DrawMode_4")];
+			DrawMode_UnknownText = this.GetLocalization("DrawMode_Unknown");
 		}
 
 		public override void SetDefaults() {
@@ -53,27 +69,18 @@ namespace ExampleMod.Content.Items
 
 		public override void RightClick(Player player) {
 			drawMode = (drawMode + 1) % Count;
-			Main.NewText($"Switching to drawMode #{drawMode}: {GetMessageForDrawMode()}");
+			Main.NewText(RightClickText.Format(drawMode, GetMessageForDrawMode()));
 		}
 
 		private string GetMessageForDrawMode() {
-			switch (drawMode) {
-				case DrawModeGlowmask:
-					return "Draw an overlay/glowmask";
-				case DrawModePulse:
-					return "Scale drawing to make a pulse effect similar to Soul items";
-				case DrawModeBehindTexture:
-					return "Draw a texture behind the item";
-				case DrawModeHighlightAfterImageEffect:
-					return "Draw a highlight border similar to the Boss Bag visual effect";
-				case DrawModeRockingRotation:
-					return "Draws the item rocking left and right";
-			}
-			return "Unknown mode";
+			if (drawMode >= 0 && drawMode < DrawModeText.Length)
+				return DrawModeText[drawMode].Value;
+
+			return DrawMode_UnknownText.Value;
 		}
 
 		public override void ModifyTooltips(List<TooltipLine> tooltips) {
-			tooltips.Add(new TooltipLine(Mod, "DrawModeDetails", $"drawMode #{drawMode}: {GetMessageForDrawMode()}"));
+			tooltips.Add(new TooltipLine(Mod, "DrawModeDetails", DrawModeDetailsText.Format(drawMode, GetMessageForDrawMode())));
 		}
 
 		public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale) {

@@ -15,15 +15,21 @@ namespace ExampleMod.Content.BuilderToggles
 
 	public class ExampleBuilderToggle : BuilderToggle
 	{
+		public static LocalizedText CurrentColorText { get; private set; }
+
+		public static LocalizedText[] ColorText { get; private set; }
+
+		public override void SetStaticDefaults() {
+			CurrentColorText = this.GetLocalization("CurrentColor");
+			ColorText = [this.GetLocalization("Color_0"), this.GetLocalization("Color_1"), this.GetLocalization("Color_2"), this.GetLocalization("Color_3")];
+		}
+
 		public override bool Active() => Main.LocalPlayer.HeldItem.IsAir;
 
 		public override int NumberOfStates => 4;
 
 		public override string DisplayValue() {
-			string text = "Color: ";
-			string[] textMessages = new[] { "Red", "Blue", "Green", "Yellow" };
-
-			return text + textMessages[CurrentState];
+			return CurrentColorText.Format(ColorText[CurrentState].Value);
 		}
 
 		public override bool Draw(SpriteBatch spriteBatch, ref BuilderToggleDrawParams drawParams) {
