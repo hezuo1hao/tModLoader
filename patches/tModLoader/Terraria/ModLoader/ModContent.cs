@@ -197,7 +197,7 @@ public static class ModContent
 	/// </summary>
 	public static ModWaterfallStyle GetModWaterfallStyle(int style) => LoaderManager.Get<WaterFallStylesLoader>().Get(style);
 
-	/// <inheritdoc cref="BackgroundTextureLoader.GetBackgroundSlot"/>
+	/// <inheritdoc cref="BackgroundTextureLoader.GetBackgroundSlot(string)"/>
 	public static int GetModBackgroundSlot(string texture) => BackgroundTextureLoader.GetBackgroundSlot(texture);
 
 	/// <summary>

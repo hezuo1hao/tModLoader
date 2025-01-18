@@ -6813,6 +6813,19 @@
  
  			bool[] shouldIgnore2 = ItemCheck_GetTileCutIgnoreList(sItem);
  			ItemCheck_CutTiles(sItem, itemRectangle, shouldIgnore2);
+@@ -34195,8 +_,12 @@
+ 			NPC.ReleaseNPC((int)base.Center.X, (int)base.Bottom.Y, sItem.makeNPC, sItem.placeStyle, whoAmI);
+ 		}
+ 		else if (position.X / 16f - (float)tileRangeX - (float)sItem.tileBoost <= (float)tileTargetX && (position.X + (float)width) / 16f + (float)tileRangeX + (float)sItem.tileBoost - 1f >= (float)tileTargetX && position.Y / 16f - (float)tileRangeY - (float)sItem.tileBoost <= (float)tileTargetY && (position.Y + (float)height) / 16f + (float)tileRangeY + (float)sItem.tileBoost - 2f >= (float)tileTargetY) {
++			/*
+ 			int num = Main.mouseX + (int)Main.screenPosition.X;
+ 			int num2 = Main.mouseY + (int)Main.screenPosition.Y;
++			*/
++			int num = (int)Main.MouseWorld.X;
++			int num2 = (int)Main.MouseWorld.Y;
+ 			int i = num / 16;
+ 			int j = num2 / 16;
+ 			if (!WorldGen.SolidTile(i, j)) {
 @@ -34216,15 +_,21 @@
  			if (i == whoAmI || !player.active || !player.hostile || player.immune || player.dead || (team != 0 && team == player.team) || !itemRectangle.Intersects(player.Hitbox) || !CanHit(player))
  				continue;

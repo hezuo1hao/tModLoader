@@ -229,11 +229,7 @@ public abstract class GlobalNPC : GlobalType<NPC, GlobalNPC>
 		return false;
 	}
 
-	/// <summary>
-	/// Allows you to determine whether or not NPC from doing anything on death (besides die). Return false to stop the NPC from doing anything special. Returns true by default.
-	/// </summary>
-	/// <param name="npc"></param>
-	/// <returns></returns>
+	/// <inheritdoc cref="ModNPC.PreKill"/>
 	public virtual bool PreKill(NPC npc)
 	{
 		return true;

@@ -31,7 +31,7 @@ public static class NPCLoader
 	internal static readonly IDictionary<int, int> bannerToItem = new Dictionary<int, int>();
 	internal static readonly IDictionary<int, int> itemToBanner = new Dictionary<int, int>();
 	/// <summary>
-	/// Allows you to stop an NPC from dropping loot by adding item IDs to this list. This list will be cleared whenever NPCLoot ends. Useful for either removing an item or change the drop rate of an item in the NPC's loot table. To change the drop rate of an item, use the PreNPCLoot hook, spawn the item yourself, then add the item's ID to this list.
+	/// Allows you to stop an NPC from dropping specific loot by adding item IDs to this list. This list will be cleared whenever NPCLoot ends. Useful for dynamically removing an item in the NPC's loot table. To remove an item drop use the <see cref="ModNPC.PreKill"/> hook to add the item's ID to this list. Editing the drop rules themselves is usually the better and more compatible approach, however.
 	/// </summary>
 	public static readonly IList<int> blockLoot = new List<int>();
 

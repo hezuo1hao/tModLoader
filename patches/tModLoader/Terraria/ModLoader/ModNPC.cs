@@ -332,7 +332,9 @@ public abstract class ModNPC : ModType<NPC, ModNPC>, ILocalizedModType
 	}
 
 	/// <summary>
-	/// Allows you to determine whether or not this NPC will do anything upon death (besides dying). Returns true by default.
+	/// Allows you to determine whether or not this NPC will do anything upon death (besides dying). This method can also be used to dynamically prevent specific item loot using <see cref="NPCLoader.blockLoot"/>, but editing the drop rules themselves is usually the better approach.
+	/// <para/> Returning false will skip dropping loot, the <see cref="NPCLoader.OnKill(NPC)"/> methods, and logic setting boss flags (<see cref="NPC.DoDeathEvents"/>).
+	/// <para/> Returns true by default. 
 	/// </summary>
 	/// <returns></returns>
 	public virtual bool PreKill()

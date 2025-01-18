@@ -687,7 +687,7 @@
  	public static int spawnTileY;
  	public static bool npcChatRelease;
  	public static bool editSign;
-@@ -1044,8 +_,11 @@
+@@ -1044,13 +_,18 @@
  	public static bool npcChatFocus3;
  	public static bool npcChatFocus4;
  	public static int oldNPCShop;
@@ -700,6 +700,13 @@
  	public static ItemShopSellbackHelper shopSellbackHelper = new ItemShopSellbackHelper();
  	public static int[] travelShop = new int[40];
  	public static List<string> anglerWhoFinishedToday = new List<string>();
+ 	public static bool anglerQuestFinished;
++	/// <summary> The index of the current Angler Quest item within <see cref="anglerQuestItemNetIDs"/>. </summary>
+ 	public static int anglerQuest;
++	/// <summary> The Angler Quest item options. The current quest is contained in <see cref="anglerQuest"/>. </summary>
+ 	public static int[] anglerQuestItemNetIDs = new int[41] {
+ 		2450,
+ 		2451,
 @@ -1119,6 +_,9 @@
  	public static bool temporaryGUIScaleSliderUpdate = false;
  	public static bool InGuideCraftMenu;
@@ -1028,8 +1035,17 @@
  
  	public static void AnglerQuestSwap()
  	{
-@@ -2962,6 +_,7 @@
+@@ -2959,9 +_,16 @@
+ 		anglerQuestFinished = false;
+ 		bool flag = NPC.downedBoss1 || NPC.downedBoss2 || NPC.downedBoss3 || hardMode || NPC.downedSlimeKing || NPC.downedQueenBee;
+ 		bool flag2 = true;
++		int tryCount = 0;
  		while (flag2) {
++			if (++tryCount > 1000) {
++				anglerQuest = 0;
++				Logging.tML.Warn("AnglerQuestSwap try count limit exceeded, a mod might have bad IsAnglerQuestAvailable logic"); // Fix #4488
++				break;
++			}
  			flag2 = false;
  			anglerQuest = rand.Next(anglerQuestItemNetIDs.Length);
 +			// Patch note: ↑flag2 and num↓ are used below.
